@@ -15,7 +15,9 @@ from clothing_assistant.config_data import (
     JINA_EMBEDDING_URL,
     VECTOR_DB_DIR,
     get_rag_timeout_seconds,
+    is_deterministic_provider_enabled,
 )
+from clothing_assistant.infrastructure.deterministic_provider import DeterministicEmbeddings
 from clothing_assistant.infrastructure.knowledge_base import build_knowledge_chunks, load_knowledge_files
 
 
@@ -108,7 +110,7 @@ def get_embeddings():
 
     # Streamlit 点击按钮会重跑页面脚本；缓存客户端对象避免重复初始化。
     if _EMBEDDINGS_CACHE is None:
-        _EMBEDDINGS_CACHE = JinaEmbeddings()
+        _EMBEDDINGS_CACHE = DeterministicEmbeddings() if is_deterministic_provider_enabled() else JinaEmbeddings()
 
     return _EMBEDDINGS_CACHE
 
@@ -186,7 +188,7 @@ def build_vector_store_meta(knowledge_chunks, source_task_id=None, version=None)
         "chunk_count": len(knowledge_chunks),
         "content_digest": build_content_digest(knowledge_chunks),
         "source_task_id": source_task_id,
-        "embedding_provider": "jina",
+        "embedding_provider": "deterministic" if is_deterministic_provider_enabled() else "jina",
         "embedding_model": EMBEDDING_MODEL_NAME,
         "built_at": built_at,
     }

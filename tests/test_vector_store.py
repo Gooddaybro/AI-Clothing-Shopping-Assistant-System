@@ -158,6 +158,23 @@ class JinaEmbeddingsTests(unittest.TestCase):
         self.assertIsNotNone(client_type)
         return client_type(api_key=api_key)
 
+    def test_integration_runtime_uses_deterministic_embeddings_without_jina(self):
+        vector_store._EMBEDDINGS_CACHE = None
+        with patch.dict(
+            os.environ,
+            {"AI_RUNTIME_ENV": "integration", "AI_DETERMINISTIC_PROVIDER": "true"},
+            clear=True,
+        ), patch("clothing_assistant.infrastructure.vector_store.httpx.post") as post:
+            embeddings = vector_store.get_embeddings()
+            first = embeddings.embed_query("通勤")
+            second = embeddings.embed_query("通勤")
+            other = embeddings.embed_query("休闲")
+
+        self.assertEqual(first, second)
+        self.assertNotEqual(first, other)
+        self.assertEqual(len(first), 16)
+        post.assert_not_called()
+
     def test_document_embeddings_use_passage_task_and_response_indexes(self):
         client = self.get_embeddings_client()
         response = Mock()

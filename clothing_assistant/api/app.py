@@ -45,6 +45,7 @@ from clothing_assistant.config_data import (
     get_runtime_environment,
     get_stream_safety_tail_chars,
     is_debug_response_enabled,
+    is_deterministic_provider_enabled,
     is_internal_auth_required,
 )
 from clothing_assistant.infrastructure.vector_store import (
@@ -76,6 +77,7 @@ async def lifespan(_: FastAPI):
         get_llm_max_concurrency()
         get_rag_timeout_seconds()
         get_stream_safety_tail_chars()
+        is_deterministic_provider_enabled()
         if get_runtime_environment() == "production" and not get_internal_api_token():
             raise RuntimeError("APP_INTERNAL_API_TOKEN is required in production")
         yield

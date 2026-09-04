@@ -30,6 +30,7 @@ RUNTIME_ENVIRONMENT_ENV = "AI_RUNTIME_ENV"
 CHECKPOINTER_BACKEND_ENV = "LANGGRAPH_CHECKPOINTER_BACKEND"
 CHECKPOINTER_DSN_ENV = "LANGGRAPH_CHECKPOINTER_DSN"
 INTERNAL_API_TOKEN_ENV = "APP_INTERNAL_API_TOKEN"
+DETERMINISTIC_PROVIDER_ENV = "AI_DETERMINISTIC_PROVIDER"
 
 
 def _get_positive_float(name: str, default: str) -> float:
@@ -77,6 +78,14 @@ def get_stream_safety_tail_chars() -> int:
 
 def get_runtime_environment() -> str:
     return os.getenv(RUNTIME_ENVIRONMENT_ENV, "development").strip().lower()
+
+
+def is_deterministic_provider_enabled() -> bool:
+    """Enable stable provider substitutes only in explicit non-production runtimes."""
+    enabled = os.getenv(DETERMINISTIC_PROVIDER_ENV, "false").strip().lower() == "true"
+    if enabled and get_runtime_environment() not in {"test", "integration"}:
+        raise RuntimeError("deterministic provider is allowed only in test or integration")
+    return enabled
 
 
 def get_internal_api_token() -> str:

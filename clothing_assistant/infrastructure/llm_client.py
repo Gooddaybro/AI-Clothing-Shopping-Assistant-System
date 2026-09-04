@@ -14,7 +14,9 @@ from clothing_assistant.config_data import (
     get_llm_max_concurrency,
     get_llm_max_retries,
     get_llm_timeout_seconds,
+    is_deterministic_provider_enabled,
 )
+from clothing_assistant.infrastructure.deterministic_provider import DeterministicChatModel
 
 
 _MODEL_SEMAPHORE = None
@@ -58,6 +60,8 @@ def classify_dependency_error(error: Exception, dependency: str = "llm") -> Depe
 
 
 def get_chat_model():
+    if is_deterministic_provider_enabled():
+        return DeterministicChatModel()
     api_key = os.getenv("MOONSHOT_API_KEY")
     if not api_key:
         raise RuntimeError("MOONSHOT_API_KEY is required to generate Kimi chat responses.")
@@ -74,6 +78,8 @@ def get_chat_model():
 
 def get_demand_intent_model():
     """Create a no-retry model with the parser's strict eight-second boundary."""
+    if is_deterministic_provider_enabled():
+        return DeterministicChatModel(demand_parser=True)
     api_key = os.getenv("MOONSHOT_API_KEY")
     if not api_key:
         raise RuntimeError("MOONSHOT_API_KEY is required to parse demand intent.")

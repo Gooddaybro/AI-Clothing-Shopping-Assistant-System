@@ -8,6 +8,7 @@ from clothing_assistant.config_data import (
     get_llm_timeout_seconds,
     get_rag_timeout_seconds,
     get_stream_safety_tail_chars,
+    is_deterministic_provider_enabled,
     is_debug_response_enabled,
 )
 
@@ -70,3 +71,27 @@ class PhaseTwoRuntimeConfigurationTests(unittest.TestCase):
                 with patch.dict(os.environ, {name: value}, clear=True):
                     with self.assertRaisesRegex(RuntimeError, name):
                         getter()
+
+
+class DeterministicProviderConfigurationTests(unittest.TestCase):
+    def test_provider_is_disabled_by_default(self):
+        with patch.dict(os.environ, {}, clear=True):
+            self.assertFalse(is_deterministic_provider_enabled())
+
+    def test_provider_is_allowed_only_in_test_or_integration(self):
+        for runtime in ("test", "integration"):
+            with self.subTest(runtime=runtime), patch.dict(
+                os.environ,
+                {"AI_RUNTIME_ENV": runtime, "AI_DETERMINISTIC_PROVIDER": "true"},
+                clear=True,
+            ):
+                self.assertTrue(is_deterministic_provider_enabled())
+
+        for runtime in ("development", "production"):
+            with self.subTest(runtime=runtime), patch.dict(
+                os.environ,
+                {"AI_RUNTIME_ENV": runtime, "AI_DETERMINISTIC_PROVIDER": "true"},
+                clear=True,
+            ):
+                with self.assertRaisesRegex(RuntimeError, "test or integration"):
+                    is_deterministic_provider_enabled()

@@ -36,6 +36,19 @@ class KimiChatClientTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "MOONSHOT_API_KEY"):
                 llm_client.get_chat_model()
 
+    def test_integration_runtime_uses_deterministic_model_without_provider_key(self):
+        with patch.dict(
+            os.environ,
+            {"AI_RUNTIME_ENV": "integration", "AI_DETERMINISTIC_PROVIDER": "true"},
+            clear=True,
+        ):
+            model = llm_client.get_chat_model()
+            response = model.invoke([{"role": "user", "content": "通勤穿搭"}])
+            fragments = [chunk.content for chunk in model.stream([])]
+
+        self.assertIn("集成测试", response.content)
+        self.assertEqual("".join(fragments), response.content)
+
 
 class FakeChunk:
     def __init__(self, content):
