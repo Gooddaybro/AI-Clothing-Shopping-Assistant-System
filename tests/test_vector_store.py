@@ -8,6 +8,7 @@ from unittest.mock import Mock, patch
 
 from clothing_assistant.infrastructure import vector_store
 from clothing_assistant.infrastructure.knowledge_base import build_knowledge_chunks
+from clothing_assistant.tools.rag_tool import build_rag_retrieval_query
 
 
 @contextmanager
@@ -174,6 +175,24 @@ class JinaEmbeddingsTests(unittest.TestCase):
         self.assertNotEqual(first, other)
         self.assertEqual(len(first), 16)
         post.assert_not_called()
+
+    def test_deterministic_embeddings_keep_integration_rag_retrieval_non_empty(self):
+        vector_store._EMBEDDINGS_CACHE = None
+        with patch.dict(
+            os.environ,
+            {"AI_RUNTIME_ENV": "integration", "AI_DETERMINISTIC_PROVIDER": "true"},
+            clear=True,
+        ):
+            embeddings = vector_store.get_embeddings()
+            query = build_rag_retrieval_query("羊毛大衣应该怎么护理？")
+            knowledge = "羊毛材质需要轻柔洗涤并避免高温烘干。"
+
+            distance = vector_store.cosine_distance(
+                embeddings.embed_query(query),
+                embeddings.embed_documents([knowledge])[0],
+            )
+
+        self.assertLessEqual(distance, 0.25)
 
     def test_document_embeddings_use_passage_task_and_response_indexes(self):
         client = self.get_embeddings_client()

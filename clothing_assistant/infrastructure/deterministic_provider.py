@@ -1,7 +1,6 @@
 """Stable outer-provider substitutes for cross-service integration tests."""
 
 from dataclasses import dataclass
-from hashlib import sha256
 import json
 import math
 import re
@@ -109,8 +108,9 @@ class DeterministicEmbeddings:
 
     @classmethod
     def _vector(cls, text: str) -> list[float]:
-        digest = sha256(text.encode("utf-8")).digest()[:cls.dimension]
-        values = [(value - 127.5) / 127.5 for value in digest]
+        values = [0.0] * cls.dimension
+        for index, byte in enumerate(text.encode("utf-8")):
+            values[index % cls.dimension] += (byte + 1) / 256
         norm = math.sqrt(sum(value * value for value in values)) or 1.0
         return [round(value / norm, 12) for value in values]
 
