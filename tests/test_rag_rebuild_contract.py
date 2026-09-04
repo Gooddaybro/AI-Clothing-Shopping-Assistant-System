@@ -1,15 +1,10 @@
 import json
 import unittest
-from pathlib import Path
+
+from tests.contract_support import resolve_contract_root
 
 
-CONTRACT_SCHEMAS = (
-    Path(__file__).resolve().parents[2]
-    / "outfit-project-contract"
-    / "contracts"
-    / "rag-rebuild"
-    / "schemas"
-)
+CONTRACT_SCHEMAS = resolve_contract_root() / "rag-rebuild" / "schemas"
 
 
 def load_schema(filename: str) -> dict:

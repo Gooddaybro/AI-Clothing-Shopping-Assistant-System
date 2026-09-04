@@ -1,8 +1,9 @@
 import json
 import unittest
-from pathlib import Path
 
 from pydantic import ValidationError
+
+from tests.contract_support import resolve_contract_root
 
 from clothing_assistant.api.schemas import (
     ChatHistoryItem,
@@ -19,13 +20,7 @@ from clothing_assistant.api.schemas import (
 )
 
 
-CONTRACT_PATH = (
-    Path(__file__).resolve().parents[2]
-    / "outfit-project-contract"
-    / "contracts"
-    / "java-python-chat"
-    / "v1.fields.json"
-)
+CONTRACT_PATH = resolve_contract_root() / "java-python-chat" / "v1.fields.json"
 
 
 class SharedContractTests(unittest.TestCase):

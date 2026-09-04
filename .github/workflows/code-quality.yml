@@ -1,31 +1,43 @@
-name: Code Quality
+name: Python Quality
 
 on:
   pull_request:
   push:
-    branches:
-      - main
-      - master
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: python-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  quality:
+  quality-and-tests:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 30
     steps:
-      - name: Check out repository
+      - name: Check out Python repository
         uses: actions/checkout@v4
+
+      - name: Check out canonical contracts
+        uses: actions/checkout@v4
+        with:
+          repository: Gooddaybro/IntelligentOutfitRecommendationSystem
+          ref: master
+          path: _integration
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
-          #开启 pip 缓存，加速后续构建（耗时从 45s 降到几秒）
-          cache: "pip"
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt -r requirements-dev.txt
+        run: python -m pip install -r requirements.txt -r requirements-dev.txt
 
       - name: Compile Python files
         run: python -m compileall -q clothing_assistant tests
@@ -36,5 +48,8 @@ jobs:
       - name: Docstring coverage
         run: interrogate -v -i --fail-under=30 clothing_assistant
 
-      - name: Unit tests
+      - name: Unit and contract tests
+        env:
+          PYTHON_DOTENV_DISABLED: "1"
+          OUTFIT_CONTRACT_ROOT: ${{ github.workspace }}/_integration/contracts
         run: python -m pytest -q
