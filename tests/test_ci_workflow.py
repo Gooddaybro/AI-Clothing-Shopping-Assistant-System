@@ -18,6 +18,10 @@ class CiWorkflowTests(unittest.TestCase):
         self.assertIn("ruff check", workflow)
         self.assertIn("interrogate", workflow)
         self.assertIn("python -m pytest -q", workflow)
+        self.assertNotIn("ref: master", workflow)
+        self.assertNotIn("Check out canonical contracts", workflow)
+        self.assertIn("${{ github.workspace }}/contracts", workflow)
+        self.assertTrue((PROJECT_DIR / "contracts" / "java-python-chat" / "v1.fields.json").is_file())
 
 
 if __name__ == "__main__":

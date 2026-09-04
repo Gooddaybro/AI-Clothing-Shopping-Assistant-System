@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://outfit.local/contracts/rag-rebuild/ai-task-requested.schema.json",
+  "title": "AI task requested event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eventId",
+    "eventType",
+    "schemaVersion",
+    "taskId",
+    "taskType",
+    "occurredAt",
+    "correlationId",
+    "traceparent"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eventType": {
+      "const": "ai.task.requested"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taskType": {
+      "const": "RAG_REBUILD"
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "traceparent": {
+      "type": "string",
+      "pattern": "^[\\da-f]{2}-[\\da-f]{32}-[\\da-f]{16}-[\\da-f]{2}$"
+    }
+  }
+}

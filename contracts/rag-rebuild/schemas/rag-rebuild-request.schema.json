@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://outfit.local/contracts/rag-rebuild/rag-rebuild-request.schema.json",
+  "title": "RAG rebuild request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["taskId", "source"],
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "const": "LOCAL_GLOBAL_KNOWLEDGE"
+    }
+  }
+}

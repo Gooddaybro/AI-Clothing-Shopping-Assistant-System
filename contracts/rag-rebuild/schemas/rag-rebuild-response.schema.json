@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://outfit.local/contracts/rag-rebuild/rag-rebuild-response.schema.json",
+  "title": "RAG rebuild response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "taskId",
+    "indexVersion",
+    "fileCount",
+    "chunkCount",
+    "contentDigest",
+    "replayed"
+  ],
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "indexVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fileCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "chunkCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "contentDigest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "replayed": {
+      "type": "boolean"
+    }
+  }
+}

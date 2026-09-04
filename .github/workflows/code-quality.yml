@@ -20,13 +20,6 @@ jobs:
       - name: Check out Python repository
         uses: actions/checkout@v4
 
-      - name: Check out canonical contracts
-        uses: actions/checkout@v4
-        with:
-          repository: Gooddaybro/IntelligentOutfitRecommendationSystem
-          ref: master
-          path: _integration
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -51,5 +44,5 @@ jobs:
       - name: Unit and contract tests
         env:
           PYTHON_DOTENV_DISABLED: "1"
-          OUTFIT_CONTRACT_ROOT: ${{ github.workspace }}/_integration/contracts
+          OUTFIT_CONTRACT_ROOT: ${{ github.workspace }}/contracts
         run: python -m pytest -q

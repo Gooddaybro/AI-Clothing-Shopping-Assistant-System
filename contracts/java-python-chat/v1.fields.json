@@ -1,0 +1,122 @@
+{
+  "version": "java-python-chat-v1",
+  "field_sets": {
+    "python_chat_request": [
+      "request_id",
+      "session_id",
+      "thread_id",
+      "query",
+      "chat_history",
+      "user_context",
+      "candidates",
+      "demand_intent",
+      "debug"
+    ],
+    "chat_history_item": [
+      "user_query",
+      "assistant_answer"
+    ],
+    "user_context": [
+      "user_id",
+      "height_cm",
+      "weight_kg",
+      "gender",
+      "preferred_fit",
+      "preferred_styles",
+      "preferred_colors",
+      "disliked_colors",
+      "preferred_categories",
+      "budget_min",
+      "budget_max",
+      "recent_interest_spu_ids",
+      "recent_cart_spu_ids",
+      "recent_purchased_spu_ids",
+      "behavior_preferred_categories",
+      "behavior_preferred_styles"
+    ],
+    "product_candidate": [
+      "spu_id",
+      "sku_id",
+      "name",
+      "category",
+      "sale_price",
+      "stock_status",
+      "color",
+      "size",
+      "brand",
+      "material",
+      "fit_type",
+      "season",
+      "style_tags",
+      "main_image_url",
+      "spu_code",
+      "sku_code",
+      "available_stock",
+      "attribute_tags"
+    ],
+    "intent_constraint": [
+      "id",
+      "field",
+      "operator",
+      "values",
+      "strength",
+      "origin",
+      "originTurnId",
+      "derivedFromConstraintId",
+      "scope",
+      "weight"
+    ],
+    "demand_intent": [
+      "version",
+      "requestType",
+      "requestedCapabilities",
+      "hardFilters",
+      "softPreferences",
+      "subjectMeasurements"
+    ],
+    "subject_measurements": [
+      "heightCm",
+      "weightKg",
+      "originalText",
+      "normalizedFrom",
+      "subject",
+      "scope",
+      "source"
+    ],
+    "java_consumed_chat_response": [
+      "request_id",
+      "answer",
+      "intent",
+      "product_refs",
+      "rejected_reasons"
+    ],
+    "python_chat_response": [
+      "request_id",
+      "answer",
+      "intent",
+      "product_refs",
+      "rejected_reasons",
+      "suggested_actions",
+      "debug"
+    ],
+    "product_ref": [
+      "spu_id",
+      "sku_id",
+      "reason",
+      "rank_score",
+      "matched_dimensions",
+      "outfit_role"
+    ],
+    "matched_dimension": [
+      "dimension",
+      "requested_value",
+      "candidate_value",
+      "evidence_source"
+    ],
+    "suggested_action": [
+      "type",
+      "spu_id",
+      "sku_id"
+    ]
+  }
+}
