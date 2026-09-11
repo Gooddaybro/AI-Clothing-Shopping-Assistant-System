@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "const": "assistant-v2"
+    },
+    "agent_mode": {
+      "const": "pro"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "\\S"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "\\S"
+    },
+    "thread_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "\\S"
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "pattern": "\\S"
+    },
+    "chat_history": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "user_query",
+          "assistant_answer"
+        ],
+        "properties": {
+          "user_query": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "assistant_answer": {
+            "type": "string",
+            "maxLength": 8000
+          }
+        }
+      }
+    },
+    "user_context": {
+      "type": "object",
+      "description": "Trusted Java-assembled read-only profile. Never accepted as a public frontend payload. Service and conversation authorization must be enforced outside JSON Schema."
+    },
+    "explicit_filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "style": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "season": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "material": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "fit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "gender": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "color": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "size": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "budget_max": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,2})?$",
+          "maxLength": 20
+        }
+      }
+    },
+    "current_product_refs": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spu_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sku_id": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "spu_id"
+        ]
+      }
+    },
+    "tool_run_token": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "\\S"
+    }
+  },
+  "required": [
+    "contract_version",
+    "agent_mode",
+    "request_id",
+    "run_id",
+    "thread_id",
+    "query",
+    "tool_run_token"
+  ]
+}

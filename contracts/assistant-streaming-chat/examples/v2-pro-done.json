@@ -1,0 +1,17 @@
+{
+  "contract_version": "assistant-v2",
+  "agent_mode": "pro",
+  "request_id": "req-1",
+  "run_id": "run-1",
+  "thread_id": "th-1",
+  "answer": "暂未确认退换政策。",
+  "product_refs": [],
+  "requirements": [],
+  "stop_reason": "completed",
+  "metrics": {
+    "decisions": 1,
+    "tool_calls": 0,
+    "elapsed_ms": 10,
+    "token_usage": null
+  }
+}

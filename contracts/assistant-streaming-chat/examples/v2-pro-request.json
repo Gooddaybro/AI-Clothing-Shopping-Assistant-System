@@ -1,0 +1,15 @@
+{
+  "contract_version": "assistant-v2",
+  "agent_mode": "pro",
+  "request_id": "req-1",
+  "run_id": "run-1",
+  "thread_id": "th-1",
+  "query": "推荐300元以内的外套",
+  "tool_run_token": "example-not-a-secret",
+  "chat_history": [],
+  "user_context": {},
+  "explicit_filters": {
+    "budget_max": "300.00"
+  },
+  "current_product_refs": []
+}
