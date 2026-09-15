@@ -161,3 +161,16 @@ KNOWLEDGE_FILES = [
     "材质知识.txt",
     "版型知识.txt",
 ]
+
+
+def get_pro_limits() -> dict:
+    """Deployment settings may lower, never raise, the Pro safety ceilings."""
+    from math import isfinite
+    seconds = _get_positive_float("PRO_TOTAL_SECONDS", "90")
+    if not isfinite(seconds):
+        raise RuntimeError("PRO_TOTAL_SECONDS must be finite")
+    return {
+        "model_calls": _get_int("PRO_MAX_MODEL_CALLS", "12", minimum=1, maximum=12),
+        "tool_calls": _get_int("PRO_MAX_TOOL_CALLS", "8", minimum=1, maximum=8),
+        "total_seconds": min(seconds, 90.0),
+    }
