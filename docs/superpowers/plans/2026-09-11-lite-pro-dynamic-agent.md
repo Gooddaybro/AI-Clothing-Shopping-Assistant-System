@@ -252,11 +252,11 @@ def test_runs_do_not_share_evidence():
 
 **Files:** Modify `B/assistant/client/ProPythonAssistantClient.java`、`B/assistant/service/ProAssistantService.java`、`B/assistant/api/ProAssistantController.java`；Create `B/assistant/dto/ProProgressEvent.java`、`ProDoneEvent.java`；Test `JT/assistant/ProAssistantStreamTests.java`。
 
-- [ ] 测试 progress 允许枚举事件且丢弃不匹配 runId，重复 done 只保存一次，断开不存半条答案，超时和错误会撤销 run token。
-- [ ] `./mvnw.cmd "-Dtest=ProAssistantStreamTests" test` 红灯后实现 meta/progress/token/done/error v2 转换、缓冲验证策略和取消。
-- [ ] 完成时先用 Task 7 校验，保存校验后的答案和最终商品引用，再发送最终 done 并关闭 run；数据库失败输出 error，不将未保存答案标为已完成。
-- [ ] 使用已有会话存储服务和推荐归因能力；同一 runId 防止重复终结。旧 v1 handler 不转发新事件。
-- [ ] 运行 `./mvnw.cmd "-Dtest=ProAssistantStreamTests,AssistantServiceTests,AssistantControllerTests,RestPythonAssistantClientTests" test`，通过后提交 `feat: stream and persist validated Pro results`。
+- [x] 测试 progress 允许枚举事件且丢弃不匹配 runId，重复 done 只保存一次，断开不存半条答案，超时和错误会撤销 run token。
+- [x] `./mvnw.cmd "-Dtest=ProAssistantStreamTests" test` 红灯后实现 meta/progress/token/done/error v2 转换、缓冲验证策略和取消。
+- [x] 完成时先用 Task 7 校验，保存校验后的答案和最终商品引用，再发送最终 done 并关闭 run；数据库失败输出 error，不将未保存答案标为已完成。
+- [x] 使用已有会话存储服务和推荐归因能力；同一 runId 防止重复终结。旧 v1 handler 不转发新事件。
+- [x] 运行 `./mvnw.cmd "-Dtest=ProAssistantStreamTests,AssistantServiceTests,AssistantControllerTests,RestPythonAssistantClientTests" test`，通过后提交 `feat: 实现 Java v2 SSE 与结果持久化`。
 
 ## Task 10：前端模式、进度和共用商品卡片
 
