@@ -262,9 +262,9 @@ def test_runs_do_not_share_evidence():
 
 **Files:** Modify `J/frontend/src/shared/api/types.ts`、`shared/api/assistantStream.ts`、`features/assistant/ChatPanel.tsx`、`features/assistant/assistantState.ts`；复用 `features/catalog/ProductCard.tsx`；Modify 对应 `assistantStream.test.ts`、`ChatPanel.test.tsx`、`assistantState.test.ts`。
 
-- [ ] 写交互测试：默认 Lite；选 Pro 后请求 v2 且带 pro；发送后固定本轮模式；progress 不显示商品；done 才显示经校验卡片；切回 Lite 保持历史。
-- [ ] 在 J/frontend 运行 `npm run test -- --run src/shared/api/assistantStream.test.ts src/features/assistant/ChatPanel.test.tsx src/features/assistant/assistantState.test.ts`，确认新行为失败。
-- [ ] 新增类型和按模式的 endpoint 选择，保持旧事件 parser 测试不变：
+- [x] 写交互测试：默认 Lite；选 Pro 后请求 v2 且带 pro；发送后固定本轮模式；progress 不显示商品；done 才显示经校验卡片；切回 Lite 保持历史。
+- [x] 在 J/frontend 运行 `npm run test -- --run src/shared/api/assistantStream.test.ts src/features/assistant/ChatPanel.test.tsx src/features/assistant/assistantState.test.ts`，确认新行为失败。
+- [x] 新增类型和按模式的 endpoint 选择，保持旧事件 parser 测试不变：
 
 ```typescript
 export type AgentMode = "lite" | "pro";
@@ -275,9 +275,9 @@ export function chatStreamPath(mode: AgentMode): string {
 }
 ```
 
-- [ ] 输入框加有可访问名称的模式选择；运行中禁止改变本轮 mode，下一轮允许选择。Pro 不可用明确展示错误，不静默调用 Lite。Pro Max 不展示为可用。
-- [ ] reducer 按本轮 runId 处理进度，重置旧进度和中间卡片。复用商品卡片并跳转现有详情路由；Pro 卡片直接消费 Java 返回事实，不通过旧候选列表再次筛掉动态商品。
-- [ ] 上述测试 PASS，再 `npm run build`；提交 `feat: add Pro mode and validated product display`。
+- [x] 输入框加有可访问名称的模式选择；运行中禁止改变本轮 mode，下一轮允许选择。Pro 不可用明确展示错误，不静默调用 Lite。Pro Max 不展示为可用。
+- [x] reducer 按本轮 runId 处理进度，重置旧进度和中间卡片。复用商品卡片并跳转现有详情路由；Pro 卡片直接消费 Java 返回事实，不通过旧候选列表再次筛掉动态商品。
+- [x] 上述测试 PASS，再 `npm run build`；提交 `feat: add Pro mode and validated product display`。
 
 ## Task 11：纵向验收、对比报告与启用
 
