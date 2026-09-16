@@ -231,12 +231,12 @@ def test_runs_do_not_share_evidence():
 
 **Files:** Create `P/clothing_assistant/agent/pro/validation.py`、`B/assistant/service/ProRecommendationValidator.java`；Modify Task 3 ProAssistantService；Test `P/tests/test_pro_validation.py`、`JT/assistant/ProRecommendationValidatorTests.java`。
 
-- [ ] 写测试：B 由运行中新查询加入可展示；假 SKU、跨 run、SPU/SKU 错配均拒绝；价格变更超过预算后文本与卡片同步变为部分结果。
-- [ ] 运行 `python -m pytest tests/test_pro_validation.py -q`；Java 运行 `./mvnw.cmd "-Dtest=ProRecommendationValidatorTests" test`，确认失败。
-- [ ] Python 校验 evidence、需求状态、硬条件，不依赖单一 intent；Java 使用 run ledger 验证 provenance 并读取事实。能复用现有字段校验就复用，不放宽旧 RecommendationDecisionService。
-- [ ] Java 返回最终商品信息、推荐理由、建议尺码和 basis。Python 任意提供的价格/图片/URL 不采用。价格或库存变化使推荐失效时，用确定性受限说明替换相关承诺，或预算内重新决策一次；首期选择确定性受限说明，避免增加跨服务循环。
-- [ ] 没有政策证据时需求标为无法确认，不能将“能退换”的强条件标为全部满足。通用尺码建议不作为适配保证。
-- [ ] 两端测试通过后提交 `feat: validate dynamic recommendations and card facts`。
+- [x] 写测试：B 由运行中新查询加入可展示；假 SKU、跨 run、SPU/SKU 错配均拒绝；价格变更超过预算后文本与卡片同步变为部分结果。
+- [x] 运行 `python -m pytest tests/test_pro_validation.py -q`；Java 运行 `./mvnw.cmd "-Dtest=ProRecommendationValidatorTests" test`，确认失败。
+- [x] Python 校验 evidence、需求状态、硬条件，不依赖单一 intent；Java 使用 run ledger 验证 provenance 并读取事实。能复用现有字段校验就复用，不放宽旧 RecommendationDecisionService。
+- [x] Java 返回最终商品信息、推荐理由、建议尺码和 basis。Python 任意提供的价格/图片/URL 不采用。价格或库存变化使推荐失效时，用确定性受限说明替换相关承诺，或预算内重新决策一次；首期选择确定性受限说明，避免增加跨服务循环。
+- [x] 没有政策证据时需求标为无法确认，不能将“能退换”的强条件标为全部满足。通用尺码建议不作为适配保证。
+- [x] 两端测试通过后提交 `feat: 校验 Pro 推荐商品与实时事实`。
 
 ## Task 8：Python v2 同步与流式 API
 
