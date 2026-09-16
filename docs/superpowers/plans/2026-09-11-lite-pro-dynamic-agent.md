@@ -242,11 +242,11 @@ def test_runs_do_not_share_evidence():
 
 **Files:** Create `P/clothing_assistant/api/pro_routes.py`；Modify `P/clothing_assistant/api/app.py`（注册 router）、`P/clothing_assistant/api/streaming.py`（仅新增 v2 helper）；Test `P/tests/test_pro_api.py`、`P/tests/test_pro_stream.py`。
 
-- [ ] 测试 v2 鉴权、版本拒绝、sync/done 内容一致；SSE 顺序为 progress* → token* → done，失败只有一个 error 终止。不将工具数据或内部推理当 token。
-- [ ] `python -m pytest tests/test_pro_api.py tests/test_pro_stream.py -q` 确认红灯。
-- [ ] progress 使用执行器真实 start/complete 事件、序号和 runId；最终草稿经过 Python 校验后才发 token，卡片只在 done。Java v2 必须缓存答案 token 直到自身最终校验后再对前端释放，progress 可以实时转发，避免价格变化时错误承诺已被用户看见。
-- [ ] 同步与流式调用共享执行器，HTTP disconnect 传播取消；凭据不进入 checkpoint。所有 SSE data 为单行 JSON。
-- [ ] 运行 `python -m pytest tests/test_pro_api.py tests/test_pro_stream.py tests/test_api.py tests/test_chat_stream.py -q`，旧 v1 测试通过后提交 `feat: expose versioned Pro chat APIs`。
+- [x] 测试 v2 鉴权、版本拒绝、sync/done 内容一致；SSE 顺序为 progress* → token* → done，失败只有一个 error 终止。不将工具数据或内部推理当 token。
+- [x] `python -m pytest tests/test_pro_api.py tests/test_pro_stream.py -q` 通过。
+- [x] progress 使用执行器真实 start/complete 事件、序号和 runId；最终草稿经过 Python 校验后才发 token，卡片只在 done。Java v2 必须缓存答案 token 直到自身最终校验后再对前端释放，progress 可以实时转发，避免价格变化时错误承诺已被用户看见。
+- [x] 同步与流式调用共享执行器，HTTP disconnect 传播取消；凭据不进入 checkpoint。所有 SSE data 为单行 JSON。
+- [x] 运行 `python -m pytest tests/test_pro_api.py tests/test_pro_stream.py tests/test_api.py tests/test_chat_stream.py -q`，旧 v1 测试通过后提交 `feat: 提供 Pro v2 同步流式 API`。
 
 ## Task 9：Java v2 SSE 与持久化
 
