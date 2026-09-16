@@ -94,3 +94,23 @@ def iter_stream_events(agent_result: dict[str, Any], request_id: str) -> Iterabl
 def build_error_event(code: str, message: str) -> str:
     """Build a safe SSE error event without exposing internal exception details."""
     return format_sse_event("error", {"code": code, "message": message})
+
+
+def build_pro_progress_event(payload: dict[str, Any]) -> str:
+    """Build one v2 progress event from a server-selected safe payload."""
+    return format_sse_event("progress", payload)
+
+
+def build_pro_token_event(content: str) -> str:
+    """Build one v2 token event; callers pass only validated answer text."""
+    return format_sse_event("token", {"content": content})
+
+
+def build_pro_done_event(payload: dict[str, Any]) -> str:
+    """Build the v2 terminal done event from the validated result."""
+    return format_sse_event("done", payload)
+
+
+def build_pro_error_event(payload: dict[str, Any]) -> str:
+    """Build one v2 terminal error event without adding internal details."""
+    return format_sse_event("error", payload)

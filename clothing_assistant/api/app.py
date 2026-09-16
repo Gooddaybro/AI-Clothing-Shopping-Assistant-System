@@ -27,6 +27,7 @@ from clothing_assistant.api.streaming import (
     build_stream_done_payload,
     format_sse_event,
 )
+from clothing_assistant.api.pro_routes import router as pro_router
 from clothing_assistant.agent.agent_executor import run_agent
 from clothing_assistant.agent.langgraph_executor import (
     close_runtime_checkpointer,
@@ -60,7 +61,16 @@ INTERNAL_AUTH_ERROR = {
     "error": "internal_auth_required",
     "message": "python assistant internal authentication failed",
 }
-CHAT_REQUEST_PATHS = frozenset({"/chat", "/chat/stream", "/chat/pipeline", "/chat/langgraph"})
+CHAT_REQUEST_PATHS = frozenset(
+    {
+        "/chat",
+        "/chat/stream",
+        "/chat/pipeline",
+        "/chat/langgraph",
+        "/v2/chat",
+        "/v2/chat/stream",
+    }
+)
 REQUEST_TOO_LARGE_ERROR = {
     "error": "request_too_large",
     "message": "python assistant request exceeds the configured size limit",
@@ -133,6 +143,12 @@ async def require_internal_auth(request: Request):
     supplied = request.headers.get(INTERNAL_TOKEN_HEADER, "")
     if not expected or not hmac.compare_digest(supplied, expected):
         raise HTTPException(status_code=401, detail=INTERNAL_AUTH_ERROR)
+
+
+# v2 is an internal Java-to-Python boundary.  Keep the dependency here so the
+# existing authentication implementation remains the single source of truth,
+# while pro_routes stays importable without an app-module cycle.
+app.include_router(pro_router, dependencies=[Depends(require_internal_auth)])
 
 
 def get_demand_intent_parse_service() -> DemandIntentParseService:
