@@ -290,7 +290,7 @@ export function chatStreamPath(mode: AgentMode): string {
 - [x] 完成一次最终验证：P 聚焦评测、脚本、Ruff、compileall 通过；P 全量为 454 passed、1 个既有派生向量索引依赖失败；J/frontend `npm run test -- --run` 和 `npm run build` 通过；J/backend `./mvnw.cmd verify` 与真实集成留待依赖齐备环境执行并已记录。
 - [x] 验收门槛：固定行为用例全部通过；不存在伪造卡片、跨 run 候选、硬预算静默放宽；Lite 前端回归通过；真实模型本轮未配置，不把 scripted 成功率当模型能力。
 - [x] 验收后仅在本地/测试环境启用 Pro；生产发布另行按用户范围执行。开关关闭不影响 Lite，运行生命周期继续由 Java 取消/完成后清理。
-- [ ] 提交 `test: verify Lite and Pro end-to-end behavior`，记录各仓库 commit 与实际运行命令、结果和未验证项目。
+- [x] 提交 `test: 验证 Lite 与 Pro 端到端行为`（Python `42c75e13c257fec7dc518d7b0a778ba907f1f4bd`；Java 侧 Task11 提交另行记录），并记录各仓库 commit、实际运行命令、结果和未验证项目。
 
 ## 4. 设计覆盖自检与交付边界
 
