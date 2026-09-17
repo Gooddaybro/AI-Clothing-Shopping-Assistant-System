@@ -44,6 +44,14 @@ clothing_assistant/agent/nodes.py
 clothing_assistant/agent/state.py
 ```
 
+## 0. Lite / Pro 运行说明
+
+Lite 保持本文描述的固定 LangGraph 流程。Pro 是独立的 `assistant-v2` 动态工具调度入口：Java 提供经过会话校验的身份、用户业务上下文和商品候选事实，Python 只根据当前状态决定下一步；每轮工具结果回到决策器，最终商品仍由 Java 做事实校验和持久化。
+
+Pro 的边界、版本契约和分阶段实施记录见
+[Lite/Pro 动态 Agent 设计计划](superpowers/plans/2026-09-11-lite-pro-dynamic-agent.md)。固定场景评测、Lite 参考行和 Pro 安全门槛见
+[Lite/Pro 固定场景评测](evals/lite-pro-comparison.md)。
+
 ## 2. 当前图结构
 
 当前主线图：

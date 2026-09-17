@@ -1,0 +1,275 @@
+{
+  "schema_version": "assistant-pro-eval-v1",
+  "data_version": "task11-pro-comparison-v1",
+  "tool_facts_version": "java-fixture-2026-09",
+  "cases": [
+    {
+      "id": "single_explicit_request",
+      "query": "推荐一件黑色通勤外套，预算 300 元以内",
+      "mode": "pro",
+      "hard_constraints": {
+        "category": "outerwear",
+        "style": "commute",
+        "budget_max": "300.00"
+      },
+      "expected": {
+        "hard_constraints": {
+          "category": "outerwear",
+          "style": "commute",
+          "budget_max": "300.00"
+        },
+        "must_answer": ["商品", "未确认"],
+        "allowed_skus": [{"spu_id": 101, "sku_id": 201}],
+        "failure_type": null,
+        "stop_reason": "completed",
+        "tools": ["search_products"]
+      },
+      "fake": {
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "search_products", "arguments": {}}},
+          {"when": "last_status_ok", "action": {"kind": "finish", "answer": "找到匹配商品", "product_refs": [{"spu_id": 101, "sku_id": 201, "reason": "通勤和预算匹配", "evidence_ids": ["ev-single"]}]}}
+        ],
+        "tool_results": [
+          {"tool": "search_products", "status": "ok", "evidence_id": "ev-single", "data": [{"spu_id": 101, "sku_id": 201, "sale_price": "299.90", "available_stock": 5, "category": "outerwear", "style_tags": ["commute"], "color": "black", "size": "L"}]}
+        ]
+      }
+    },
+    {
+      "id": "compound_five_requirements",
+      "query": "找一件春季通勤的棉质合身外套，预算 500 元以内，并说明护理、退换和尺码",
+      "mode": "pro",
+      "hard_constraints": {
+        "category": "outerwear",
+        "style": "commute",
+        "season": "spring",
+        "material": "cotton",
+        "budget_max": "500.00"
+      },
+      "expected": {
+        "hard_constraints": {
+          "category": "outerwear",
+          "style": "commute",
+          "season": "spring",
+          "material": "cotton",
+          "budget_max": "500.00"
+        },
+        "must_answer": ["商品", "未确认"],
+        "allowed_skus": [{"spu_id": 103, "sku_id": 203}],
+        "failure_type": null,
+        "stop_reason": "completed",
+        "tools": ["search_products", "search_product_knowledge", "search_policy", "recommend_size"]
+      },
+      "fake": {
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "search_products", "arguments": {}}},
+          {"when": "last_tool_search_products", "action": {"kind": "tool", "tool": "search_product_knowledge", "arguments": {"query": "春季棉质外套护理", "spu_id": 103}}},
+          {"when": "last_tool_search_product_knowledge", "action": {"kind": "tool", "tool": "search_policy", "arguments": {"query": "退换货规则"}}},
+          {"when": "last_tool_search_policy", "action": {"kind": "tool", "tool": "recommend_size", "arguments": {"height_cm": 175.0, "weight_kg": 70.0, "spu_id": 103}}},
+          {"when": "last_tool_recommend_size", "action": {"kind": "finish", "answer": "找到商品并整理相关说明", "product_refs": [{"spu_id": 103, "sku_id": 203, "reason": "五项条件匹配", "size_advice": "L", "basis": "product_chart", "evidence_ids": ["ev-compound-search", "ev-compound-size"]}]}}
+        ],
+        "tool_results": [
+          {"tool": "search_products", "status": "ok", "evidence_id": "ev-compound-search", "data": [{"spu_id": 103, "sku_id": 203, "sale_price": "399.00", "available_stock": 8, "category": "outerwear", "style_tags": ["commute"], "season": ["spring"], "material": "cotton"}]},
+          {"tool": "search_product_knowledge", "status": "ok", "evidence_id": "ev-compound-knowledge", "data": {"retrieved_chunks": [{"chunk_id": "knowledge-103", "source": "care.md", "content": "棉质衣物建议低温护理。"}]}},
+          {"tool": "search_policy", "status": "ok", "evidence_id": "ev-compound-policy", "data": {"policy_chunks": [{"chunk_id": "policy-1", "source": "return-policy.md", "content": "退换政策以页面说明为准。"}]}},
+          {"tool": "recommend_size", "status": "ok", "evidence_id": "ev-compound-size", "data": {"recommended_size": "L", "basis": "product_chart", "product_chart_available": true, "product_chart_evidence": true}}
+        ]
+      }
+    },
+    {
+      "id": "switch_when_a_out_of_stock",
+      "query": "黑色 M 码外套没货就帮我换一件相近的",
+      "mode": "pro",
+      "hard_constraints": {},
+      "expected": {
+        "hard_constraints": {},
+        "must_answer": ["商品", "未确认"],
+        "allowed_skus": [{"spu_id": 102, "sku_id": 202}],
+        "failure_type": null,
+        "stop_reason": "completed",
+        "tools": ["check_availability", "check_availability"]
+      },
+      "fake": {
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "check_availability", "arguments": {"spu_id": 101, "color": "black", "size": "M"}}},
+          {"when": "last_stock_zero", "action": {"kind": "tool", "tool": "check_availability", "arguments": {"spu_id": 102, "color": "black", "size": "M"}}},
+          {"when": "last_stock_positive", "action": {"kind": "finish", "answer": "已改选有货商品", "product_refs": [{"spu_id": 102, "sku_id": 202, "reason": "A 无货后改选 B", "evidence_ids": ["ev-stock-b"]}]}}
+        ],
+        "tool_results": [
+          {"tool": "check_availability", "match": {"spu_id": 101}, "status": "ok", "evidence_id": "ev-stock-a", "data": {"spu_id": 101, "sku_id": 201, "color": "black", "size": "M", "sale_price": "299.00", "available_stock": 0}},
+          {"tool": "check_availability", "match": {"spu_id": 102}, "status": "ok", "evidence_id": "ev-stock-b", "data": {"spu_id": 102, "sku_id": 202, "color": "black", "size": "M", "sale_price": "289.00", "available_stock": 4}}
+        ]
+      }
+    },
+    {
+      "id": "no_product_within_budget",
+      "query": "找一件 200 元以内的外套",
+      "mode": "pro",
+      "hard_constraints": {"budget_max": "200.00"},
+      "expected": {
+        "hard_constraints": {"budget_max": "200.00"},
+        "must_answer": ["没有可确认"],
+        "allowed_skus": [],
+        "failure_type": "no_match",
+        "stop_reason": "completed",
+        "tools": ["search_products"]
+      },
+      "fake": {
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "search_products", "arguments": {}}},
+          {"when": "last_status_empty", "action": {"kind": "finish", "answer": "预算内没有商品", "product_refs": []}}
+        ],
+        "tool_results": [
+          {"tool": "search_products", "status": "empty", "evidence_id": "ev-empty-budget", "data": []}
+        ]
+      }
+    },
+    {
+      "id": "policy_without_evidence",
+      "query": "推荐一件外套，并确认是否支持七天无理由退换",
+      "mode": "pro",
+      "hard_constraints": {"category": "outerwear", "budget_max": "300.00"},
+      "expected": {
+        "hard_constraints": {"category": "outerwear", "budget_max": "300.00"},
+        "must_answer": ["商品", "未确认"],
+        "allowed_skus": [{"spu_id": 104, "sku_id": 204}],
+        "failure_type": "policy_no_evidence",
+        "stop_reason": "completed",
+        "tools": ["search_products", "search_policy"]
+      },
+      "fake": {
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "search_products", "arguments": {}}},
+          {"when": "last_tool_search_products", "action": {"kind": "tool", "tool": "search_policy", "arguments": {"query": "七天无理由退换"}}},
+          {"when": "last_status_no_evidence", "action": {"kind": "finish", "answer": "商品可以参考，政策需要确认", "product_refs": [{"spu_id": 104, "sku_id": 204, "reason": "商品条件匹配", "evidence_ids": ["ev-policy-search"]}]}}
+        ],
+        "tool_results": [
+          {"tool": "search_products", "status": "ok", "evidence_id": "ev-policy-search", "data": [{"spu_id": 104, "sku_id": 204, "sale_price": "299.00", "available_stock": 3, "category": "outerwear"}]},
+          {"tool": "search_policy", "status": "no_evidence", "evidence_id": "ev-policy-none", "data": {"policy_chunks": [], "policy_answer": "没有可引用的政策资料。"}}
+        ]
+      }
+    },
+    {
+      "id": "size_without_product_chart",
+      "query": "这件外套适合我吗？我身高 175cm、体重 70kg",
+      "mode": "pro",
+      "hard_constraints": {"budget_max": "300.00"},
+      "expected": {
+        "hard_constraints": {"budget_max": "300.00"},
+        "must_answer": ["商品", "未确认"],
+        "allowed_skus": [{"spu_id": 105, "sku_id": 205}],
+        "failure_type": "size_basis_unconfirmed",
+        "stop_reason": "completed",
+        "tools": ["search_products", "recommend_size"]
+      },
+      "fake": {
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "search_products", "arguments": {}}},
+          {"when": "last_tool_search_products", "action": {"kind": "tool", "tool": "recommend_size", "arguments": {"height_cm": 175.0, "weight_kg": 70.0, "spu_id": 105}}},
+          {"when": "last_tool_recommend_size", "action": {"kind": "finish", "answer": "商品可以参考尺码建议", "product_refs": [{"spu_id": 105, "sku_id": 205, "reason": "商品价格和库存有依据", "size_advice": "L", "basis": "product_chart", "evidence_ids": ["ev-size-search", "ev-size-generic"]}]}}
+        ],
+        "tool_results": [
+          {"tool": "search_products", "status": "ok", "evidence_id": "ev-size-search", "data": [{"spu_id": 105, "sku_id": 205, "sale_price": "299.00", "available_stock": 6}]},
+          {"tool": "recommend_size", "status": "ok", "evidence_id": "ev-size-generic", "data": {"recommended_size": "L", "basis": "generic_rule", "product_chart_available": false, "product_chart_evidence": false}}
+        ]
+      }
+    },
+    {
+      "id": "inventory_timeout",
+      "query": "确认黑色 L 码外套是否有货",
+      "mode": "pro",
+      "hard_constraints": {},
+      "expected": {
+        "hard_constraints": {},
+        "must_answer": ["没有可确认", "未确认"],
+        "allowed_skus": [],
+        "failure_type": "inventory_timeout",
+        "stop_reason": "completed",
+        "tools": ["check_availability", "check_availability"]
+      },
+      "fake": {
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "check_availability", "arguments": {"spu_id": 106, "color": "black", "size": "L"}}},
+          {"when": "last_status_unavailable", "action": {"kind": "finish", "answer": "库存核验超时", "product_refs": []}}
+        ],
+        "tool_results": [
+          {"tool": "check_availability", "status": "unavailable", "evidence_id": "ev-inventory-timeout", "error_code": "timeout", "data": null}
+        ]
+      }
+    },
+    {
+      "id": "decision_loop_exhausted",
+      "query": "持续查询政策直到找到证据",
+      "mode": "pro",
+      "hard_constraints": {},
+      "expected": {
+        "hard_constraints": {},
+        "must_answer": ["没有可确认", "处理已停止"],
+        "allowed_skus": [],
+        "failure_type": "loop_exhausted",
+        "stop_reason": "budget_exhausted",
+        "tools": ["search_policy", "search_policy", "search_policy"]
+      },
+      "fake": {
+        "limits": {"model_calls": 3, "tool_calls": 3},
+        "decisions": [
+          {"when": {"observation_count": 0}, "action": {"kind": "tool", "tool": "search_policy", "arguments": {"query": "loop-0"}}},
+          {"when": {"observation_count": 1}, "action": {"kind": "tool", "tool": "search_policy", "arguments": {"query": "loop-1"}}},
+          {"when": {"observation_count": 2}, "action": {"kind": "tool", "tool": "search_policy", "arguments": {"query": "loop-2"}}}
+        ],
+        "tool_results": [
+          {"tool": "search_policy", "match": {"query": "loop-0"}, "status": "no_evidence", "evidence_id": "ev-loop-0", "data": {"policy_chunks": []}},
+          {"tool": "search_policy", "match": {"query": "loop-1"}, "status": "no_evidence", "evidence_id": "ev-loop-1", "data": {"policy_chunks": []}},
+          {"tool": "search_policy", "match": {"query": "loop-2"}, "status": "no_evidence", "evidence_id": "ev-loop-2", "data": {"policy_chunks": []}}
+        ]
+      }
+    },
+    {
+      "id": "cross_mode_invalid_product",
+      "query": "用 Pro 推荐预算 300 元以内的外套；Lite 结果不能作为 Pro 商品事实",
+      "mode": "pro",
+      "hard_constraints": {"budget_max": "300.00"},
+      "comparison": {"lite_mode": "lite", "pro_mode": "pro"},
+      "expected": {
+        "hard_constraints": {"budget_max": "300.00"},
+        "must_answer": ["没有可确认", "未确认"],
+        "allowed_skus": [],
+        "failure_type": "invalid_product",
+        "stop_reason": "validation_failed",
+        "tools": ["search_products"]
+      },
+      "fake": {
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "search_products", "arguments": {}}},
+          {"when": "last_status_ok", "action": {"kind": "finish", "answer": "错误地引用了其他模式商品", "product_refs": [{"spu_id": 999, "sku_id": 999, "reason": "非法跨模式商品", "evidence_ids": ["ev-cross-mode"]}]}}
+        ],
+        "tool_results": [
+          {"tool": "search_products", "status": "ok", "evidence_id": "ev-cross-mode", "data": [{"spu_id": 107, "sku_id": 207, "sale_price": "299.00", "available_stock": 2}]}
+        ]
+      }
+    },
+    {
+      "id": "cancelled_request",
+      "query": "查询外套并在需要时给出尺码",
+      "mode": "pro",
+      "hard_constraints": {},
+      "expected": {
+        "hard_constraints": {},
+        "must_answer": ["没有可确认", "处理已停止"],
+        "allowed_skus": [],
+        "failure_type": "cancelled",
+        "stop_reason": "cancelled",
+        "tools": ["search_products"]
+      },
+      "fake": {
+        "cancel_after_tool_calls": 1,
+        "decisions": [
+          {"when": "start", "action": {"kind": "tool", "tool": "search_products", "arguments": {}}},
+          {"when": "last_status_ok", "action": {"kind": "finish", "answer": "不应到达", "product_refs": []}}
+        ],
+        "tool_results": [
+          {"tool": "search_products", "status": "ok", "evidence_id": "ev-cancel", "data": [{"spu_id": 108, "sku_id": 208, "sale_price": "299.00", "available_stock": 2}]}
+        ]
+      }
+    }
+  ]
+}

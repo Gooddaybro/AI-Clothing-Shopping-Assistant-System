@@ -1,0 +1,1672 @@
+{
+  "schema_version": "assistant-pro-eval-v1",
+  "data_version": "task11-pro-comparison-v1",
+  "generated_at": "2026-09-17T08:21:03.924431+00:00",
+  "input": {
+    "case_ids": [
+      "single_explicit_request",
+      "compound_five_requirements",
+      "switch_when_a_out_of_stock",
+      "no_product_within_budget",
+      "policy_without_evidence",
+      "size_without_product_chart",
+      "inventory_timeout",
+      "decision_loop_exhausted",
+      "cross_mode_invalid_product",
+      "cancelled_request"
+    ],
+    "queries": [
+      "推荐一件黑色通勤外套，预算 300 元以内",
+      "找一件春季通勤的棉质合身外套，预算 500 元以内，并说明护理、退换和尺码",
+      "黑色 M 码外套没货就帮我换一件相近的",
+      "找一件 200 元以内的外套",
+      "推荐一件外套，并确认是否支持七天无理由退换",
+      "这件外套适合我吗？我身高 175cm、体重 70kg",
+      "确认黑色 L 码外套是否有货",
+      "持续查询政策直到找到证据",
+      "用 Pro 推荐预算 300 元以内的外套；Lite 结果不能作为 Pro 商品事实",
+      "查询外套并在需要时给出尺码"
+    ],
+    "tool_facts_version": "java-fixture-2026-09"
+  },
+  "model": {
+    "source": "scripted_fake",
+    "name": "unknown",
+    "real_model_executed": false,
+    "usage_policy": "missing usage is null; cost is omitted without a verified price"
+  },
+  "summary": {
+    "case_count": 10,
+    "run_count": 20,
+    "pro_fake_passed": 10,
+    "pro_fake_failed": 0,
+    "real_model_executed": false,
+    "real_model_passed": 0,
+    "real_model_failed": 0,
+    "lite_reference_rows": 10
+  },
+  "runs": [
+    {
+      "case_id": "single_explicit_request",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "推荐一件黑色通勤外套，预算 300 元以内",
+      "hard_constraints": {
+        "category": "outerwear",
+        "style": "commute",
+        "budget_max": "300.00"
+      },
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "single_explicit_request",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "推荐一件黑色通勤外套，预算 300 元以内",
+      "hard_constraints": {
+        "category": "outerwear",
+        "style": "commute",
+        "budget_max": "300.00"
+      },
+      "passed": true,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "completed",
+      "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+      "product_pairs": [
+        [
+          101,
+          201
+        ]
+      ],
+      "observed_tools": [
+        "search_products"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "推荐一件黑色通勤外套，预算 300 元以内",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "category",
+          "text": "category: outerwear",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "style",
+          "text": "style: commute",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "budget_max",
+          "text": "budget_max: 300.00",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 2,
+        "tool_calls": 1,
+        "elapsed_ms": 14,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "compound_five_requirements",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "找一件春季通勤的棉质合身外套，预算 500 元以内，并说明护理、退换和尺码",
+      "hard_constraints": {
+        "category": "outerwear",
+        "style": "commute",
+        "season": "spring",
+        "material": "cotton",
+        "budget_max": "500.00"
+      },
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "compound_five_requirements",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "找一件春季通勤的棉质合身外套，预算 500 元以内，并说明护理、退换和尺码",
+      "hard_constraints": {
+        "category": "outerwear",
+        "style": "commute",
+        "season": "spring",
+        "material": "cotton",
+        "budget_max": "500.00"
+      },
+      "passed": true,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "completed",
+      "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+      "product_pairs": [
+        [
+          103,
+          203
+        ]
+      ],
+      "observed_tools": [
+        "search_products",
+        "search_product_knowledge",
+        "search_policy",
+        "recommend_size"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "找一件春季通勤的棉质合身外套，预算 500 元以内，并说明护理、退换和尺码",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "category",
+          "text": "category: outerwear",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "style",
+          "text": "style: commute",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "season",
+          "text": "season: spring",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "material",
+          "text": "material: cotton",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "budget_max",
+          "text": "budget_max: 500.00",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 5,
+        "tool_calls": 4,
+        "elapsed_ms": 16,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "switch_when_a_out_of_stock",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "黑色 M 码外套没货就帮我换一件相近的",
+      "hard_constraints": {},
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "switch_when_a_out_of_stock",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "黑色 M 码外套没货就帮我换一件相近的",
+      "hard_constraints": {},
+      "passed": true,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "completed",
+      "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+      "product_pairs": [
+        [
+          102,
+          202
+        ]
+      ],
+      "observed_tools": [
+        "check_availability",
+        "check_availability"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "黑色 M 码外套没货就帮我换一件相近的",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 3,
+        "tool_calls": 2,
+        "elapsed_ms": 14,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "no_product_within_budget",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "找一件 200 元以内的外套",
+      "hard_constraints": {
+        "budget_max": "200.00"
+      },
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "no_product_within_budget",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "找一件 200 元以内的外套",
+      "hard_constraints": {
+        "budget_max": "200.00"
+      },
+      "passed": true,
+      "failures": [],
+      "failure_type": "no_match",
+      "stop_reason": "completed",
+      "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+      "product_pairs": [],
+      "observed_tools": [
+        "search_products"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "找一件 200 元以内的外套",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "budget_max",
+          "text": "budget_max: 200.00",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 2,
+        "tool_calls": 1,
+        "elapsed_ms": 0,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "policy_without_evidence",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "推荐一件外套，并确认是否支持七天无理由退换",
+      "hard_constraints": {
+        "category": "outerwear",
+        "budget_max": "300.00"
+      },
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "policy_without_evidence",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "推荐一件外套，并确认是否支持七天无理由退换",
+      "hard_constraints": {
+        "category": "outerwear",
+        "budget_max": "300.00"
+      },
+      "passed": true,
+      "failures": [],
+      "failure_type": "policy_no_evidence",
+      "stop_reason": "completed",
+      "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+      "product_pairs": [
+        [
+          104,
+          204
+        ]
+      ],
+      "observed_tools": [
+        "search_products",
+        "search_policy"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "推荐一件外套，并确认是否支持七天无理由退换",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "category",
+          "text": "category: outerwear",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "budget_max",
+          "text": "budget_max: 300.00",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 3,
+        "tool_calls": 2,
+        "elapsed_ms": 16,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "size_without_product_chart",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "这件外套适合我吗？我身高 175cm、体重 70kg",
+      "hard_constraints": {
+        "budget_max": "300.00"
+      },
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "size_without_product_chart",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "这件外套适合我吗？我身高 175cm、体重 70kg",
+      "hard_constraints": {
+        "budget_max": "300.00"
+      },
+      "passed": true,
+      "failures": [],
+      "failure_type": "size_basis_unconfirmed",
+      "stop_reason": "completed",
+      "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+      "product_pairs": [
+        [
+          105,
+          205
+        ]
+      ],
+      "observed_tools": [
+        "search_products",
+        "recommend_size"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "这件外套适合我吗？我身高 175cm、体重 70kg",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "budget_max",
+          "text": "budget_max: 300.00",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 3,
+        "tool_calls": 2,
+        "elapsed_ms": 0,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "inventory_timeout",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "确认黑色 L 码外套是否有货",
+      "hard_constraints": {},
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "inventory_timeout",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "确认黑色 L 码外套是否有货",
+      "hard_constraints": {},
+      "passed": true,
+      "failures": [],
+      "failure_type": "inventory_timeout",
+      "stop_reason": "completed",
+      "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+      "product_pairs": [],
+      "observed_tools": [
+        "check_availability",
+        "check_availability"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "确认黑色 L 码外套是否有货",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 2,
+        "tool_calls": 2,
+        "elapsed_ms": 15,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "decision_loop_exhausted",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "持续查询政策直到找到证据",
+      "hard_constraints": {},
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "decision_loop_exhausted",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "持续查询政策直到找到证据",
+      "hard_constraints": {},
+      "passed": true,
+      "failures": [],
+      "failure_type": "loop_exhausted",
+      "stop_reason": "budget_exhausted",
+      "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。本次处理已停止，未完成的条件保持未确认。",
+      "product_pairs": [],
+      "observed_tools": [
+        "search_policy",
+        "search_policy",
+        "search_policy"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "持续查询政策直到找到证据",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 3,
+        "tool_calls": 3,
+        "elapsed_ms": 14,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "cross_mode_invalid_product",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "用 Pro 推荐预算 300 元以内的外套；Lite 结果不能作为 Pro 商品事实",
+      "hard_constraints": {
+        "budget_max": "300.00"
+      },
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "cross_mode_invalid_product",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "用 Pro 推荐预算 300 元以内的外套；Lite 结果不能作为 Pro 商品事实",
+      "hard_constraints": {
+        "budget_max": "300.00"
+      },
+      "passed": true,
+      "failures": [],
+      "failure_type": "invalid_product",
+      "stop_reason": "validation_failed",
+      "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+      "product_pairs": [],
+      "observed_tools": [
+        "search_products"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "用 Pro 推荐预算 300 元以内的外套；Lite 结果不能作为 Pro 商品事实",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        },
+        {
+          "id": "budget_max",
+          "text": "budget_max: 300.00",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 2,
+        "tool_calls": 1,
+        "elapsed_ms": 0,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    },
+    {
+      "case_id": "cancelled_request",
+      "mode": "lite",
+      "source": "scripted_baseline",
+      "query": "查询外套并在需要时给出尺码",
+      "hard_constraints": {},
+      "evaluation_status": "reference_only",
+      "passed": null,
+      "failures": [],
+      "failure_type": null,
+      "stop_reason": "fixed_flow_reference",
+      "answer": null,
+      "product_pairs": [],
+      "observed_tools": [
+        "legacy_fixed_flow"
+      ],
+      "requirements": [],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": null,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": false,
+        "result_driven_routing": false,
+        "cross_run_product_isolation": false
+      }
+    },
+    {
+      "case_id": "cancelled_request",
+      "mode": "pro",
+      "source": "scripted_fake",
+      "query": "查询外套并在需要时给出尺码",
+      "hard_constraints": {},
+      "passed": true,
+      "failures": [],
+      "failure_type": "cancelled",
+      "stop_reason": "cancelled",
+      "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。本次处理已停止，未完成的条件保持未确认。",
+      "product_pairs": [],
+      "observed_tools": [
+        "search_products"
+      ],
+      "requirements": [
+        {
+          "id": "query",
+          "text": "查询外套并在需要时给出尺码",
+          "status": "unconfirmed",
+          "evidence_ids": []
+        }
+      ],
+      "metrics": {
+        "decisions": 1,
+        "tool_calls": 1,
+        "elapsed_ms": 16,
+        "token_usage": null
+      },
+      "capabilities": {
+        "compound_requirements": true,
+        "result_driven_routing": true,
+        "cross_run_product_isolation": true
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "case_id": "single_explicit_request",
+      "lite": {
+        "case_id": "single_explicit_request",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "推荐一件黑色通勤外套，预算 300 元以内",
+        "hard_constraints": {
+          "category": "outerwear",
+          "style": "commute",
+          "budget_max": "300.00"
+        },
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "single_explicit_request",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "推荐一件黑色通勤外套，预算 300 元以内",
+        "hard_constraints": {
+          "category": "outerwear",
+          "style": "commute",
+          "budget_max": "300.00"
+        },
+        "passed": true,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "completed",
+        "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+        "product_pairs": [
+          [
+            101,
+            201
+          ]
+        ],
+        "observed_tools": [
+          "search_products"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "推荐一件黑色通勤外套，预算 300 元以内",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "category",
+            "text": "category: outerwear",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "style",
+            "text": "style: commute",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "budget_max",
+            "text": "budget_max: 300.00",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 2,
+          "tool_calls": 1,
+          "elapsed_ms": 14,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "compound_five_requirements",
+      "lite": {
+        "case_id": "compound_five_requirements",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "找一件春季通勤的棉质合身外套，预算 500 元以内，并说明护理、退换和尺码",
+        "hard_constraints": {
+          "category": "outerwear",
+          "style": "commute",
+          "season": "spring",
+          "material": "cotton",
+          "budget_max": "500.00"
+        },
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "compound_five_requirements",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "找一件春季通勤的棉质合身外套，预算 500 元以内，并说明护理、退换和尺码",
+        "hard_constraints": {
+          "category": "outerwear",
+          "style": "commute",
+          "season": "spring",
+          "material": "cotton",
+          "budget_max": "500.00"
+        },
+        "passed": true,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "completed",
+        "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+        "product_pairs": [
+          [
+            103,
+            203
+          ]
+        ],
+        "observed_tools": [
+          "search_products",
+          "search_product_knowledge",
+          "search_policy",
+          "recommend_size"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "找一件春季通勤的棉质合身外套，预算 500 元以内，并说明护理、退换和尺码",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "category",
+            "text": "category: outerwear",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "style",
+            "text": "style: commute",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "season",
+            "text": "season: spring",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "material",
+            "text": "material: cotton",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "budget_max",
+            "text": "budget_max: 500.00",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 5,
+          "tool_calls": 4,
+          "elapsed_ms": 16,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "switch_when_a_out_of_stock",
+      "lite": {
+        "case_id": "switch_when_a_out_of_stock",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "黑色 M 码外套没货就帮我换一件相近的",
+        "hard_constraints": {},
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "switch_when_a_out_of_stock",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "黑色 M 码外套没货就帮我换一件相近的",
+        "hard_constraints": {},
+        "passed": true,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "completed",
+        "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+        "product_pairs": [
+          [
+            102,
+            202
+          ]
+        ],
+        "observed_tools": [
+          "check_availability",
+          "check_availability"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "黑色 M 码外套没货就帮我换一件相近的",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 3,
+          "tool_calls": 2,
+          "elapsed_ms": 14,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "no_product_within_budget",
+      "lite": {
+        "case_id": "no_product_within_budget",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "找一件 200 元以内的外套",
+        "hard_constraints": {
+          "budget_max": "200.00"
+        },
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "no_product_within_budget",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "找一件 200 元以内的外套",
+        "hard_constraints": {
+          "budget_max": "200.00"
+        },
+        "passed": true,
+        "failures": [],
+        "failure_type": "no_match",
+        "stop_reason": "completed",
+        "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+        "product_pairs": [],
+        "observed_tools": [
+          "search_products"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "找一件 200 元以内的外套",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "budget_max",
+            "text": "budget_max: 200.00",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 2,
+          "tool_calls": 1,
+          "elapsed_ms": 0,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "policy_without_evidence",
+      "lite": {
+        "case_id": "policy_without_evidence",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "推荐一件外套，并确认是否支持七天无理由退换",
+        "hard_constraints": {
+          "category": "outerwear",
+          "budget_max": "300.00"
+        },
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "policy_without_evidence",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "推荐一件外套，并确认是否支持七天无理由退换",
+        "hard_constraints": {
+          "category": "outerwear",
+          "budget_max": "300.00"
+        },
+        "passed": true,
+        "failures": [],
+        "failure_type": "policy_no_evidence",
+        "stop_reason": "completed",
+        "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+        "product_pairs": [
+          [
+            104,
+            204
+          ]
+        ],
+        "observed_tools": [
+          "search_products",
+          "search_policy"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "推荐一件外套，并确认是否支持七天无理由退换",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "category",
+            "text": "category: outerwear",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "budget_max",
+            "text": "budget_max: 300.00",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 3,
+          "tool_calls": 2,
+          "elapsed_ms": 16,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "size_without_product_chart",
+      "lite": {
+        "case_id": "size_without_product_chart",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "这件外套适合我吗？我身高 175cm、体重 70kg",
+        "hard_constraints": {
+          "budget_max": "300.00"
+        },
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "size_without_product_chart",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "这件外套适合我吗？我身高 175cm、体重 70kg",
+        "hard_constraints": {
+          "budget_max": "300.00"
+        },
+        "passed": true,
+        "failures": [],
+        "failure_type": "size_basis_unconfirmed",
+        "stop_reason": "completed",
+        "answer": "已保留本次查询中有依据的商品供参考。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+        "product_pairs": [
+          [
+            105,
+            205
+          ]
+        ],
+        "observed_tools": [
+          "search_products",
+          "recommend_size"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "这件外套适合我吗？我身高 175cm、体重 70kg",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "budget_max",
+            "text": "budget_max: 300.00",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 3,
+          "tool_calls": 2,
+          "elapsed_ms": 0,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "inventory_timeout",
+      "lite": {
+        "case_id": "inventory_timeout",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "确认黑色 L 码外套是否有货",
+        "hard_constraints": {},
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "inventory_timeout",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "确认黑色 L 码外套是否有货",
+        "hard_constraints": {},
+        "passed": true,
+        "failures": [],
+        "failure_type": "inventory_timeout",
+        "stop_reason": "completed",
+        "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+        "product_pairs": [],
+        "observed_tools": [
+          "check_availability",
+          "check_availability"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "确认黑色 L 码外套是否有货",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 2,
+          "tool_calls": 2,
+          "elapsed_ms": 15,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "decision_loop_exhausted",
+      "lite": {
+        "case_id": "decision_loop_exhausted",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "持续查询政策直到找到证据",
+        "hard_constraints": {},
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "decision_loop_exhausted",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "持续查询政策直到找到证据",
+        "hard_constraints": {},
+        "passed": true,
+        "failures": [],
+        "failure_type": "loop_exhausted",
+        "stop_reason": "budget_exhausted",
+        "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。本次处理已停止，未完成的条件保持未确认。",
+        "product_pairs": [],
+        "observed_tools": [
+          "search_policy",
+          "search_policy",
+          "search_policy"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "持续查询政策直到找到证据",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 3,
+          "tool_calls": 3,
+          "elapsed_ms": 14,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "cross_mode_invalid_product",
+      "lite": {
+        "case_id": "cross_mode_invalid_product",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "用 Pro 推荐预算 300 元以内的外套；Lite 结果不能作为 Pro 商品事实",
+        "hard_constraints": {
+          "budget_max": "300.00"
+        },
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "cross_mode_invalid_product",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "用 Pro 推荐预算 300 元以内的外套；Lite 结果不能作为 Pro 商品事实",
+        "hard_constraints": {
+          "budget_max": "300.00"
+        },
+        "passed": true,
+        "failures": [],
+        "failure_type": "invalid_product",
+        "stop_reason": "validation_failed",
+        "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。",
+        "product_pairs": [],
+        "observed_tools": [
+          "search_products"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "用 Pro 推荐预算 300 元以内的外套；Lite 结果不能作为 Pro 商品事实",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          },
+          {
+            "id": "budget_max",
+            "text": "budget_max: 300.00",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 2,
+          "tool_calls": 1,
+          "elapsed_ms": 0,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    },
+    {
+      "case_id": "cancelled_request",
+      "lite": {
+        "case_id": "cancelled_request",
+        "mode": "lite",
+        "source": "scripted_baseline",
+        "query": "查询外套并在需要时给出尺码",
+        "hard_constraints": {},
+        "evaluation_status": "reference_only",
+        "passed": null,
+        "failures": [],
+        "failure_type": null,
+        "stop_reason": "fixed_flow_reference",
+        "answer": null,
+        "product_pairs": [],
+        "observed_tools": [
+          "legacy_fixed_flow"
+        ],
+        "requirements": [],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": null,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": false,
+          "result_driven_routing": false,
+          "cross_run_product_isolation": false
+        }
+      },
+      "pro_fake": {
+        "case_id": "cancelled_request",
+        "mode": "pro",
+        "source": "scripted_fake",
+        "query": "查询外套并在需要时给出尺码",
+        "hard_constraints": {},
+        "passed": true,
+        "failures": [],
+        "failure_type": "cancelled",
+        "stop_reason": "cancelled",
+        "answer": "当前没有可确认的商品推荐。尚未确认请求中的全部条件；退换政策、商品适配和尺码需相应证据核验，合身程度尚待确认。本次处理已停止，未完成的条件保持未确认。",
+        "product_pairs": [],
+        "observed_tools": [
+          "search_products"
+        ],
+        "requirements": [
+          {
+            "id": "query",
+            "text": "查询外套并在需要时给出尺码",
+            "status": "unconfirmed",
+            "evidence_ids": []
+          }
+        ],
+        "metrics": {
+          "decisions": 1,
+          "tool_calls": 1,
+          "elapsed_ms": 16,
+          "token_usage": null
+        },
+        "capabilities": {
+          "compound_requirements": true,
+          "result_driven_routing": true,
+          "cross_run_product_isolation": true
+        }
+      },
+      "pro_real": null
+    }
+  ]
+}
