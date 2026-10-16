@@ -520,9 +520,13 @@ class RecommendationServiceTests(unittest.TestCase):
     def test_same_thread_does_not_reuse_previous_size_state(self):
         thread_id = "size-switch-thread"
         embeddings = FakeEmbeddings()
+        # CI has no developer-generated vector index; keep this state test independent of disk.
         with patch(
             "clothing_assistant.infrastructure.vector_store.get_embeddings",
             return_value=embeddings,
+        ), patch(
+            "clothing_assistant.infrastructure.vector_store.load_vector_data",
+            return_value=[],
         ):
             first = run_langgraph_agent(
                 "177 130 怎么穿？",
